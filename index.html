@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container" id="loginContainer">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button id="loginBtn">Login</button>
+    <p id="loginError" class="error"></p>
+</div>
+
+<div class="container" id="studentListContainer" style="display:none;">
+    <h2>Student List</h2>
+    <ul id="studentList"></ul>
+    <button id="proceedToAttendanceBtn">Mark Attendance</button>
+</div>
+
+<div class="container" id="attendanceContainer" style="display:none;">
+    <h2>Mark Attendance</h2>
+    <table>
+        <thead>
+            <tr><th>Name</th><th>Roll</th><th>Present</th></tr>
+        </thead>
+        <tbody id="attendanceBody"></tbody>
+    </table>
+    <button id="submitAttendanceBtn">Submit Attendance</button>
+</div>
+
+<div class="container" id="finalAttendanceContainer" style="display:none;">
+    <h2>Final Attendance</h2>
+    <h3>Present Students</h3>
+    <table>
+        <thead><tr><th>Name</th><th>Roll</th></tr></thead>
+        <tbody id="finalPresentBody"></tbody>
+    </table>
+
+    <h3>Absent Students</h3>
+    <table>
+        <thead><tr><th>Name</th><th>Roll</th></tr></thead>
+        <tbody id="finalAbsentBody"></tbody>
+    </table>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
