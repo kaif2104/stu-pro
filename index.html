@@ -2,50 +2,152 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Attendance Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTrack &ndash; Student Management System</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container" id="loginContainer">
-    <h2>Login</h2>
-    <input type="text" id="username" placeholder="Username" />
-    <input type="password" id="password" placeholder="Password" />
-    <button id="loginBtn">Login</button>
-    <p id="loginError" class="error"></p>
+<!-- ==================== LOGIN SCREEN ==================== -->
+<div id="loginScreen" class="login-screen">
+    <div class="login-card">
+        <div class="login-logo">
+            <span class="logo-icon">🎓</span>
+            <h1>EduTrack</h1>
+            <p>Student Management System</p>
+        </div>
+        <div class="login-form">
+            <div class="input-group">
+                <span class="input-icon">👤</span>
+                <input type="text" id="username" placeholder="Username" autocomplete="username" />
+            </div>
+            <div class="input-group">
+                <span class="input-icon">🔒</span>
+                <input type="password" id="password" placeholder="Password" autocomplete="current-password" />
+            </div>
+            <button id="loginBtn" class="btn-primary">Login</button>
+            <p id="loginError" class="error"></p>
+            <div class="login-hint">
+                <strong>Teacher:</strong> teacher1 / teach123 &nbsp;|&nbsp;
+                <strong>Parent:</strong> parent1 / parent123
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="container" id="studentListContainer" style="display:none;">
-    <h2>Student List</h2>
-    <ul id="studentList"></ul>
-    <button id="proceedToAttendanceBtn">Mark Attendance</button>
-</div>
+<!-- ==================== MAIN APP ==================== -->
+<div id="mainApp" style="display:none;">
 
-<div class="container" id="attendanceContainer" style="display:none;">
-    <h2>Mark Attendance</h2>
-    <table>
-        <thead>
-            <tr><th>Name</th><th>Roll</th><th>Present</th></tr>
-        </thead>
-        <tbody id="attendanceBody"></tbody>
-    </table>
-    <button id="submitAttendanceBtn">Submit Attendance</button>
-</div>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-logo">🎓 EduTrack</div>
+        <div class="nav-links" id="navLinks"></div>
+        <div class="nav-user">
+            <span id="navUsername"></span>
+            <button id="logoutBtn" class="btn-logout">Logout</button>
+        </div>
+    </nav>
 
-<div class="container" id="finalAttendanceContainer" style="display:none;">
-    <h2>Final Attendance</h2>
-    <h3>Present Students</h3>
-    <table>
-        <thead><tr><th>Name</th><th>Roll</th></tr></thead>
-        <tbody id="finalPresentBody"></tbody>
-    </table>
+    <!-- Content Area -->
+    <div class="content-area">
 
-    <h3>Absent Students</h3>
-    <table>
-        <thead><tr><th>Name</th><th>Roll</th></tr></thead>
-        <tbody id="finalAbsentBody"></tbody>
-    </table>
-</div>
+        <!-- Dashboard -->
+        <section id="dashboardSection" class="section">
+            <h2 class="section-title">📊 Dashboard</h2>
+            <div class="stats-grid" id="statsGrid"></div>
+            <div class="quick-actions" id="quickActions"></div>
+        </section>
+
+        <!-- Student List (Teacher only) -->
+        <section id="studentListSection" class="section" style="display:none;">
+            <h2 class="section-title">👥 Student List</h2>
+            <div class="search-bar">
+                <input type="text" id="studentSearch" placeholder="🔍 Search by name or roll number…" />
+            </div>
+            <div class="student-grid" id="studentGrid"></div>
+            <button id="proceedToAttendanceBtn" class="btn-primary">📋 Mark Today's Attendance</button>
+        </section>
+
+        <!-- Attendance (Teacher only) -->
+        <section id="attendanceSection" class="section" style="display:none;">
+            <h2 class="section-title">📋 Mark Attendance</h2>
+            <div class="attendance-info">
+                <span class="date-badge" id="attendanceDateBadge"></span>
+                <div class="attendance-controls">
+                    <button id="markAllPresent" class="btn-secondary">✅ Mark All Present</button>
+                    <button id="markAllAbsent" class="btn-secondary">❌ Mark All Absent</button>
+                </div>
+            </div>
+            <div class="attendance-counter">
+                Present: <span id="presentCount" class="count-badge present">0</span>
+                &nbsp; Absent: <span id="absentCount" class="count-badge absent">0</span>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr><th>#</th><th>Name</th><th>Roll No.</th><th>Status</th></tr>
+                </thead>
+                <tbody id="attendanceBody"></tbody>
+            </table>
+            <div class="btn-group">
+                <button id="backToStudentListBtn" class="btn-secondary">&#8592; Back</button>
+                <button id="submitAttendanceBtn" class="btn-primary">Submit Attendance ✓</button>
+            </div>
+        </section>
+
+        <!-- Attendance Report -->
+        <section id="finalAttendanceSection" class="section" style="display:none;">
+            <h2 class="section-title">📊 Attendance Report</h2>
+            <div class="attendance-summary">
+                <div class="summary-card present-card">
+                    <h3 id="presentTotal">0</h3>
+                    <p>Present</p>
+                </div>
+                <div class="summary-card absent-card">
+                    <h3 id="absentTotal">0</h3>
+                    <p>Absent</p>
+                </div>
+                <div class="summary-card percentage-card">
+                    <h3 id="attendancePercentage">0%</h3>
+                    <p>Attendance Rate</p>
+                </div>
+            </div>
+            <div class="report-grid">
+                <div class="report-column">
+                    <h3 class="col-title present-title">✅ Present Students</h3>
+                    <table class="data-table">
+                        <thead><tr><th>Name</th><th>Roll No.</th></tr></thead>
+                        <tbody id="finalPresentBody"></tbody>
+                    </table>
+                </div>
+                <div class="report-column">
+                    <h3 class="col-title absent-title">❌ Absent Students</h3>
+                    <table class="data-table">
+                        <thead><tr><th>Name</th><th>Roll No.</th></tr></thead>
+                        <tbody id="finalAbsentBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events -->
+        <section id="eventsSection" class="section" style="display:none;">
+            <h2 class="section-title">📅 School Events</h2>
+            <div class="events-filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+                <button class="filter-btn" data-filter="past">Past</button>
+            </div>
+            <div class="events-grid" id="eventsGrid"></div>
+        </section>
+
+        <!-- Results -->
+        <section id="resultsSection" class="section" style="display:none;">
+            <h2 class="section-title">📝 Exam Results</h2>
+            <div id="resultsContent"></div>
+        </section>
+
+    </div><!-- /content-area -->
+</div><!-- /mainApp -->
 
 <script src="script.js"></script>
 </body>
